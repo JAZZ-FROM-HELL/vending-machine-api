@@ -58,7 +58,7 @@ Design an API for a vending machine, allowing users with a “seller” role to 
 - Implement /reset endpoint so users with a “buyer” role can reset their deposit
 - Take time to think about possible edge cases and access issues that should be solved
 
-###Evaluation criteria:
+### Evaluation criteria:
 
 - Node.js/Framework of choice best practices
 - Edge cases covered
@@ -69,5 +69,27 @@ Design an API for a vending machine, allowing users with a “seller” role to 
 
 Attention to security
 
+-----
 
-# mvp
+### Comments / Assumptions:
+
+
+- sellerId wasn't exactly defined, so it will be defined as the username of the product's owner.
+
+- Although the app uses a "mock" array repository, it was important for me to use async/await and Promises in order to make this a little more realistic, as it would be with real database persistence.
+
+- Not persisting the session with cookies / tokens. APIs are typically stateless, however an api key was not defined in this spec, so each request to a secure endpoint will require a username and password as URL query params as an alternative (except /user, see next point).
+
+- in /user endpoints, we are using the persisted User itself for authentication. for the reason why please see comment at the top of UserController.
+
+- /user security: clearly the required CRUD service for users, exposing all their info and letting them set their own deposit would create a significant vulnerability in a real-world app :)
+
+- Product service: since the smallest change is 5, the service validates that product prices are in multiples of 5.
+
+- /buy endpoint - the spec doesn't address a few business scenarios:
+- the user doesn't have enough change. in such case the API will return a 403.
+- the requested product units is larger than the available amount. in such case returning a 404.
+- the buyer can technically pay, but their balance doesn't allow for exact change. For instance: buying a product for 50, when there are only 4 coins of 20. Also in such case, a 404 will be returned.
+- in either case, if the purchase can not be completed nothing changes.
+
+
