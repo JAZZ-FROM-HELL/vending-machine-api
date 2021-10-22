@@ -1,7 +1,9 @@
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
 export class Change {
-  cent5 = 0;
-  cent10 = 0;
-  cent20 = 0;
-  cent50 = 0;
-  cent100 = 0;
+  @IsNotEmpty() cent5 = 0;
+  @IsNotEmpty() cent10 = 0;
+  @IsNotEmpty() cent20 = 0;
+  @IsNotEmpty() cent50 = 0;
+  @IsNotEmpty() cent100 = 0;
 }

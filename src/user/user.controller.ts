@@ -8,7 +8,7 @@ import {
   Body,
   Put,
   Delete,
-  NotFoundException, HttpCode, HttpStatus,
+  NotFoundException, HttpCode, HttpStatus, ValidationPipe,
 } from '@nestjs/common';
 import {LocalAuthGuard} from "../auth/local-auth.guard";
 import {UserService} from "./user.service";

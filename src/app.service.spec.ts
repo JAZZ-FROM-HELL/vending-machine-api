@@ -53,7 +53,7 @@ describe('App Service', () => {
   });
 
   it('should deposit 1 of 5 cent, current 0', async () => {
-    await appService.deposit(buyerUser.username, Coin.cent5, 1);
+    await appService.deposit(buyerUser.username, 'cent5' , 1);
     const expectedUser = await getUser(buyerUser);
     expect(expectedUser.deposit).toMatchObject({...buyerUser.deposit, cent5: 1});
   });
@@ -61,7 +61,7 @@ describe('App Service', () => {
   it('should deposit 2 of 10 cent, cent 10 is 3, cent 50 is 5', async () => {
     buyerUser.deposit.cent10 = 3;
     buyerUser.deposit.cent50 = 5;
-    await appService.deposit(buyerUser.username, Coin['cent10'], 2);
+    await appService.deposit(buyerUser.username, 'cent10', 2);
     const expectedUser = await getUser(buyerUser);
     expect(expectedUser.deposit).toMatchObject({...buyerUser.deposit, cent10: 5});
   });
@@ -69,18 +69,18 @@ describe('App Service', () => {
   it('should deposit 10 of 20 cent, cent 20 is 40, cent 100 is 25', async () => {
     buyerUser.deposit.cent20 = 40;
     buyerUser.deposit.cent100 = 25;
-    await appService.deposit(buyerUser.username, Coin['cent20'], 10);
+    await appService.deposit(buyerUser.username, 'cent20', 10);
     const expectedUser = await getUser(buyerUser);
     expect(expectedUser.deposit).toMatchObject({...buyerUser.deposit, cent20: 50});
   });
 
   it('should reject negative integers', async () => {
-    await expect(appService.deposit(buyerUser.username, Coin['cent100'], -12))
+    await expect(appService.deposit(buyerUser.username, 'cent100', -12))
       .rejects.toThrow(BadRequestException);
   });
 
   it('should reject zero', async () => {
-    await expect(appService.deposit(buyerUser.username, Coin['cent5'], 0))
+    await expect(appService.deposit(buyerUser.username, 'cent5', 0))
       .rejects.toThrow(BadRequestException);
   });
 
@@ -150,7 +150,7 @@ describe('App Service', () => {
       .resolves; // no exception thrown
   });
 
-  it('should persist new user deposit', async () => {
+  it('buy should persist new user deposit', async () => {
     await userService.update({... buyerUser, deposit: {...buyerUser.deposit, cent5: 26}});
 
     await expect(await appService.buy(buyerUser.username, existingProduct.productName, 1))
@@ -161,7 +161,7 @@ describe('App Service', () => {
     expect(newUserDeposit).toEqual({ ...new Change(), cent5: 1 });
   });
 
-  it('should persist new product units amount', async () => {
+  it('buy should persist new product units amount', async () => {
     const purchasedUnits = 1;
     const originalProductUnits =
       (await productService.findOne(existingProduct.productName)).amountAvailable;

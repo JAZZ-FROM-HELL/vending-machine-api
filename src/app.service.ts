@@ -31,10 +31,10 @@ export class AppService {
     return 'Hello vending machine!';
   }
 
-  async deposit(username:string, coin:Coin, amount:number) {
+  async deposit(username:string, coin:Coin|string, amount:number) {
     if (amount <= 0) throw new BadRequestException('Amount must be a positive integer');
     const user:User = await this.userService.findOne(username); // no need to validate user since the guards are already doing so
-    user.deposit[Coin[coin]] += amount;
+    user.deposit[coin] += amount;
     return this.userService.update(user);
   }
 

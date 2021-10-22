@@ -1,0 +1,438 @@
+{
+	"info": {
+		"_postman_id": "a06c71cc-fdc5-44f7-9c13-b9add02f46ea",
+		"name": "MVP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User: Buyer",
+			"item": [
+				{
+					"name": "http://localhost:3000/user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"yuval\",\n    \"password\": \"pwd\",\n    \"deposit\": {\n        \"cent5\": 10\n    },\n    \"role\": \"buyer\",\n    \"field\": \"value\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/user/yuval",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/yuval",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"yuval"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/user/yuval",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"yuval\",\n    \"password\": \"pwd\",\n    \"deposit\": {\n        \"cent5\": 10,\n        \"cent10\": 12\n    },\n    \"role\": \"buyer\",\n    \"field\": \"value\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/yuval",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"yuval"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/user/yuval",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"yuval\",\n    \"password\": \"pwd\"    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/yuval",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"yuval"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User: Seller",
+			"item": [
+				{
+					"name": "http://localhost:3000/user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"amanda\",\n    \"password\": \"passme\",\n    \"role\": \"seller\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/user/amanda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/amanda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"amanda"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "http://localhost:3000/product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productName\": \"playstation\",\n    \"cost\": 400,\n    \"amountAvailable\": 52,\n    \"sellerId\": \"amanda\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/product?username=amanda&password=passme",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "amanda"
+								},
+								{
+									"key": "password",
+									"value": "passme"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/product/playstation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product/playstation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"playstation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/product/playstation",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productName\": \"playstation\",\n    \"cost\": 410,\n    \"amountAvailable\": 60,\n    \"sellerId\": \"amanda\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/product/playstation?username=amanda&password=passme",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"playstation"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "amanda"
+								},
+								{
+									"key": "password",
+									"value": "passme"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/product/playstation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productName\": \"playstation\",\n    \"cost\": 410,\n    \"amountAvailable\": 60,\n    \"sellerId\": \"amanda\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/product/playstation?username=amanda&password=passme",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"playstation"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "amanda"
+								},
+								{
+									"key": "password",
+									"value": "passme"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "App",
+			"item": [
+				{
+					"name": "/deposit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/deposit?username=yuval&password=pwd&coin=cent5&amount=1000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deposit"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "yuval"
+								},
+								{
+									"key": "password",
+									"value": "pwd"
+								},
+								{
+									"key": "coin",
+									"value": "cent5"
+								},
+								{
+									"key": "amount",
+									"value": "1000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/buy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/buy?username=yuval&password=pwd&productName=playstation&units=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"buy"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "yuval"
+								},
+								{
+									"key": "password",
+									"value": "pwd"
+								},
+								{
+									"key": "productName",
+									"value": "playstation"
+								},
+								{
+									"key": "units",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reset",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/reset?username=yuval&password=pwd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reset"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "yuval"
+								},
+								{
+									"key": "password",
+									"value": "pwd"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http://localhost:3000",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		}
+	]
+}
