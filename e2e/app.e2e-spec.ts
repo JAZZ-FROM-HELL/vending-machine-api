@@ -74,8 +74,10 @@ describe('App', () => {
 
   beforeEach(async () => {
     await userRepo.clean();
-    await userRepo.create(buyerUser);
-    await userRepo.create(sellerUser);
+    await Promise.all([
+      userRepo.create(buyerUser),
+      userRepo.create(sellerUser)
+    ]);
   });
 
   it('Hello', () => {
@@ -135,12 +137,14 @@ describe('App', () => {
       productsPurchased:[existingProduct.productName, newProduct.productName],
       change: {...new Change(), cent5: 1},
     }
-    await productRepo.create(existingProduct);
-    await productRepo.create(newProduct);
-    await txRepo.create(buyerTx1);
-    await txRepo.create(buyerTx2);
-    await txRepo.create(otherBuyerTx1);
-    await txRepo.create(buyerTx3);
+    await Promise.all([
+      productRepo.create(existingProduct),
+      productRepo.create(newProduct),
+      txRepo.create(buyerTx1),
+      txRepo.create(buyerTx2),
+      txRepo.create(otherBuyerTx1),
+      txRepo.create(buyerTx3)
+    ]);
     await userRepo.update({... buyerUser, deposit: {...buyerUser.deposit, cent20: 2, cent5: 43}});
 
     return buyRequest(buyerUser, existingProduct, 2)

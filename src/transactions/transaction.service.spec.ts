@@ -18,8 +18,10 @@ describe('Transaction Service', () => {
 
   beforeEach(async () => {
     await service.clean();
-    await service.create(buyerTx1);
-    await service.create(otherBuyerTx1);
+    await Promise.all([
+      service.create(buyerTx1),
+      service.create(otherBuyerTx1),
+    ]);
   });
 
   it('should be defined', () => {
@@ -39,11 +41,13 @@ describe('Transaction Service', () => {
       .resolves.toMatchObject({...buyerTx2, id: 3})
   });
 
-  it('should find all transactions by user', async () => {
+  it('should find all transactions by user', () => {
     // one buyer and one other buyer transaction are already in
-    await service.create(buyerTx2);
-    await service.create(buyerTx3);
-    await expect(service.findByUser(buyerUser))
+    Promise.all([
+      service.create(buyerTx2),
+      service.create(buyerTx3)
+    ]);
+    expect(service.findByUser(buyerUser))
       .resolves.toEqual([buyerTx1, buyerTx2, buyerTx3]);
   });
 

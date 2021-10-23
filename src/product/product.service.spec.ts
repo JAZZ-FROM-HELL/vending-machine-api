@@ -74,8 +74,8 @@ describe('Product Service', () => {
       .resolves.toBeUndefined();
   });
 
-  it('should not support find all', async() => {
-    await expect(service.findAll()).rejects.toThrow(MethodNotAllowedException);
+  it('should not support find all', () => {
+    expect(service.findAll()).rejects.toThrow(MethodNotAllowedException);
   })
 
 });
