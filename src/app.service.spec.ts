@@ -3,7 +3,6 @@ import { UserService } from './user/user.service';
 import { buyerUser } from './user/user.mock';
 import { existingProduct, newProduct } from './product/product.mock';
 import { AppService } from './app.service';
-import { Coin } from './user/coin.enum';
 import { User } from './user/user';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { ProductService } from './product/product.service';
@@ -206,11 +205,13 @@ describe('App Service', () => {
       productsPurchased:[existingProduct.productName, newProduct.productName],
       change: {...new Change(), cent5: 1},
     }
-    await productService.create(newProduct);
-    await txService.create(buyerTx1);
-    await txService.create(buyerTx2);
-    await txService.create(otherBuyerTx1);
-    await txService.create(buyerTx3);
+    await Promise.all([
+      productService.create(newProduct),
+      txService.create(buyerTx1),
+      txService.create(buyerTx2),
+      txService.create(otherBuyerTx1),
+      txService.create(buyerTx3),
+    ]);
     await userService.update({... buyerUser, deposit: {...buyerUser.deposit, cent20: 2, cent5: 43}});
 
     await expect(appService.buy(buyerUser.username, existingProduct.productName, 2)) // total 250
