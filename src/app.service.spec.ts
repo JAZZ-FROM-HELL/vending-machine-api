@@ -41,10 +41,12 @@ describe('App Service', () => {
     newProduct.amountAvailable = 15;
 
     await userService.clean();
-    await userService.create(buyerUser);
     await productService.clean();
-    await productService.create(existingProduct);
     await txService.clean();
+    await Promise.all([
+      userService.create(buyerUser),
+      productService.create(existingProduct),
+    ]);
   });
 
   it('should be defined', () => {
@@ -143,7 +145,7 @@ describe('App Service', () => {
 
   it('should buy exactly all units of product', async () => {
     await userService.update(
-      {... buyerUser, deposit: {...buyerUser.deposit, cent5: 100}});
+      {... buyerUser, deposit: {...buyerUser.deposit, cent5: 200}});
 
     await expect(appService.buy(buyerUser.username, existingProduct.productName, 5))
       .resolves; // no exception thrown
@@ -181,6 +183,7 @@ describe('App Service', () => {
     await expect(appService.buy(buyerUser.username, existingProduct.productName, 2))
       .rejects.toThrow(ForbiddenException);
   });
+
 
   it('should reject when insufficient product units', async () => {
     await userService.update(

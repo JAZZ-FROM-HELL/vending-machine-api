@@ -41,13 +41,13 @@ describe('Transaction Service', () => {
       .resolves.toMatchObject({...buyerTx2, id: 3})
   });
 
-  it('should find all transactions by user', () => {
+  it('should find all transactions by user', async () => {
     // one buyer and one other buyer transaction are already in
-    Promise.all([
+    await Promise.all([
       service.create(buyerTx2),
       service.create(buyerTx3)
     ]);
-    expect(service.findByUser(buyerUser))
+    await expect(service.findByUser(buyerUser))
       .resolves.toEqual([buyerTx1, buyerTx2, buyerTx3]);
   });
 
