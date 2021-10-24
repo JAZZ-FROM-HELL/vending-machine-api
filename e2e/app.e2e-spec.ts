@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
@@ -73,11 +73,10 @@ describe('App', () => {
   });
 
   beforeEach(async () => {
-    await userRepo.clean();
-    await Promise.all([
-      userRepo.create(buyerUser),
-      userRepo.create(sellerUser)
-    ]);
+    await userRepo.clean().then(() => {
+      userRepo.create(buyerUser);
+      userRepo.create(sellerUser);
+    });
   });
 
   it('Hello', () => {

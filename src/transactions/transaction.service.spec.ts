@@ -17,11 +17,10 @@ describe('Transaction Service', () => {
   });
 
   beforeEach(async () => {
-    await service.clean();
-    await Promise.all([
-      service.create(buyerTx1),
-      service.create(otherBuyerTx1),
-    ]);
+    await service.clean().then(() => {
+        service.create(buyerTx1);
+        service.create(otherBuyerTx1);
+    });
   });
 
   it('should be defined', () => {

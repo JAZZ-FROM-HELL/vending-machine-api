@@ -51,8 +51,7 @@ describe('Users', () => {
 
   // init repository
   beforeEach(async () => {
-      await userRepo.clean();
-      await userRepo.create(existingUser);
+      await userRepo.clean().then(() => userRepo.create(existingUser));
   });
 
 

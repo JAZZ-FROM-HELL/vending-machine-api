@@ -40,12 +40,10 @@ describe('App Service', () => {
     existingProduct.amountAvailable = 5;
     newProduct.amountAvailable = 15;
 
-    await userService.clean();
-    await productService.clean();
-    await txService.clean();
     await Promise.all([
-      userService.create(buyerUser),
-      productService.create(existingProduct),
+      userService.clean().then(() => userService.create(buyerUser)),
+      productService.clean().then(() => productService.create(existingProduct)),
+      txService.clean()
     ]);
   });
 
@@ -209,13 +207,14 @@ describe('App Service', () => {
       change: {...new Change(), cent5: 1},
     }
     await Promise.all([
-      productService.create(newProduct),
-      txService.create(buyerTx1),
-      txService.create(buyerTx2),
-      txService.create(otherBuyerTx1),
-      txService.create(buyerTx3),
+      productService.create(newProduct).then(() => {
+        txService.create(buyerTx1);
+        txService.create(buyerTx2);
+        txService.create(otherBuyerTx1);
+        txService.create(buyerTx3);
+      }),
+      userService.update({... buyerUser, deposit: {...buyerUser.deposit, cent20: 2, cent5: 43}})
     ]);
-    await userService.update({... buyerUser, deposit: {...buyerUser.deposit, cent20: 2, cent5: 43}});
 
     await expect(appService.buy(buyerUser.username, existingProduct.productName, 2)) // total 250
       .resolves.toMatchObject(stats);

@@ -17,8 +17,7 @@ describe('Product Service', () => {
   });
 
   beforeEach(async () => {
-    await service.clean();
-    await service.create(existingProduct);
+    await service.clean().then(() => service.create(existingProduct));
   });
 
   it('should be defined', () => {

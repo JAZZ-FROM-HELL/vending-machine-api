@@ -18,8 +18,7 @@ describe('User Service', () => {
   });
 
   beforeEach(async () => {
-    await service.clean();
-    await service.create(existingUser);
+    await service.clean().then(() => service.create(existingUser));
   });
 
   it('should be defined', () => {

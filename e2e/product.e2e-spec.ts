@@ -63,13 +63,8 @@ describe('Product', () => {
   // init repository
   beforeEach(async () => {
     await Promise.all([
-      userRepo.clean(),
-      productRepo.clean(),
-    ]);
-    
-    await Promise.all([
-      userRepo.create(sellerUser),
-      productRepo.create(existingProduct),
+      userRepo.clean().then(() => userRepo.create(sellerUser)),
+      productRepo.clean().then(() => productRepo.create(existingProduct)),
     ]);
   });
 
