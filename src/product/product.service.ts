@@ -20,7 +20,7 @@ export class ProductService extends CrudService<Product, string> {
   protected async validate(product:Product, shouldExist:boolean) {
     if (!product || !product.productName || product.cost % 5 > 0)
       throw ProductService.INVALID_PRODUCT_ERROR;
-    await super.validate(product, shouldExist);
+    return super.validate(product, shouldExist);
   }
 
 }

@@ -19,7 +19,7 @@ export class UserService extends CrudService<User, string> {
     protected async validate(user:User, shouldExist:boolean) {
         if (!user || !user.username || !user.password)
             throw UserService.BAD_USER_CREDENTIALS_ERROR;
-        await super.validate(user, shouldExist);
+        return super.validate(user, shouldExist);
     }
 
 }

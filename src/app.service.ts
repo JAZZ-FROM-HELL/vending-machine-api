@@ -15,7 +15,7 @@ export class AppService {
   public static readonly INSUFFICIENT_BALANCE_ERROR:ForbiddenException =
     new ForbiddenException('Insufficient balance');
 
-  public static readonly INSUFFICIENT_PRODUCT_UNITS:NotFoundException =
+  public static readonly INSUFFICIENT_PRODUCT_UNITS_ERROR:NotFoundException =
     new NotFoundException('Insufficient product units');
 
   public static readonly NO_EXACT_CHANGE_ERROR:NotFoundException =
@@ -40,12 +40,18 @@ export class AppService {
 
   async buy(username:string, productName:string, units:number):Promise<StatsDto> {
     if (units <= 0) throw new BadRequestException('Product units must be a positive integer');
-    const user:User = await this.userService.findOne(username);
-    const product:Product = await this.productService.findOne(productName);
+
+    let user:User;
+    let product:Product;
+    [user, product] = await Promise.all([
+      this.userService.findOne(username) ,
+      this.productService.findOne(productName),
+    ]);
+
     if (!product) throw ProductService.INVALID_PRODUCT_ERROR;
 
     // finding out if there are enough available units of the requested product
-    if (product.amountAvailable < units) throw AppService.INSUFFICIENT_PRODUCT_UNITS;
+    if (product.amountAvailable < units) throw AppService.INSUFFICIENT_PRODUCT_UNITS_ERROR;
 
     const totalCost = product.cost * units;
     const coinKeys:string[] = Object.keys(user.deposit).filter(coin => isNaN(Number(coin)));
@@ -74,21 +80,18 @@ export class AppService {
     if (remainingTotalChange > 0) throw AppService.NO_EXACT_CHANGE_ERROR;
 
 
-    // persist transaction
-    const tx:Transaction = {
-      user: user, product: product, units: units, totalSpent: totalCost
-    };
-    await this.txService.create(tx);
-
-    // persist the product with new unit amount
+    const tx:Transaction = { user: user, product: product, units: units, totalSpent: totalCost };
     product.amountAvailable -= 1;
-    await this.productService.update(product);
-
-    // persist new user deposit
     for (const key of coinKeys) {
       user.deposit[key] -= spending[key];
     }
-    await this.userService.update(user);
+
+    // this would be created in a transactional scope with a real database
+    await Promise.all([
+        this.txService.create(tx), // persist transaction
+        this.productService.update(product), // persist the product with new unit amount
+        this.userService.update(user), // persist new user deposit
+    ]);
 
     const userTxs = await this.txService.findByUser(user);
     const totalSpent = userTxs.reduce((sum, tx) => sum + tx.totalSpent, 0);
